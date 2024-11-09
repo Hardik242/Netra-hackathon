@@ -14,10 +14,7 @@ function generateMilitaryID() {
     return `${prefix}-${number}-${suffix}`;
 }
 
-export function generateFakeData(tableName /* , numRows */) {
-    //     const data = {};
-
-    //     for (let i = 0; i < numRows; i++) {
+export function generateFakeData(tableName) {
     switch (tableName) {
         case "users":
             return {
@@ -90,8 +87,6 @@ export function generateFakeData(tableName /* , numRows */) {
             break;
         case "transactions":
             return {
-                //     weaponSerial: faker.number.int({min: 1, max: 100}),
-                //     userID: faker.number.int({min: 1, max: 100}),
                 transactionType: faker.helpers.arrayElement([
                     "issue",
                     "return",
@@ -102,7 +97,4 @@ export function generateFakeData(tableName /* , numRows */) {
             };
             break;
     }
-    //     }
-
-    //     return data;
 }
