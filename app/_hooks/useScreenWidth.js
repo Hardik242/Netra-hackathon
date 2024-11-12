@@ -6,6 +6,7 @@ const useScreenWidth = () => {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
+            setScreenWidth(window.innerWidth);
             const handleResize = () => setScreenWidth(window.innerWidth);
             window.addEventListener("resize", handleResize);
             return () => window.removeEventListener("resize", handleResize);
