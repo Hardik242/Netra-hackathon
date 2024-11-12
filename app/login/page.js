@@ -23,7 +23,7 @@ export default function Page() {
             />
             <Card className="min-w-72 flex-1 max-w-md my-5 overflow-visible">
                 <CardHeader className="py-5 flex justify-center flex-col gap-4 ">
-                    <Logo size={16} />
+                    <Logo isSize />
                     <h1 className="w-full font-bold text-4xl text-center">
                         Login
                     </h1>

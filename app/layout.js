@@ -1,12 +1,11 @@
 import "@/app/_styles/globals.css";
-import {Montserrat} from "next/font/google";
+import {Open_Sans} from "next/font/google";
 import Header from "./_component/Header";
 import {NextProvider} from "./_context/NextProvider";
 
-const poppins = Montserrat({
+const poppins = Open_Sans({
     subsets: ["latin"],
     display: "swap",
-    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata = {
@@ -22,12 +21,12 @@ export default function RootLayout({children}) {
     return (
         <html lang="en">
             <body
-                className={`${poppins.className} bg-slate-100 flex relative min-h-screen w-screen overflow-x-hidden antialiased`}>
+                className={`${poppins.className} bg-slate-100 flex flex-col relative min-h-screen w-screen overflow-x-hidden antialiased`}>
                 {
                     <>
                         <Header />
 
-                        <main className="min-h-full flex-1 flex px-4">
+                        <main className="min-h-full max-w-screen flex-1 flex px-4">
                             <NextProvider>{children}</NextProvider>
                         </main>
                     </>

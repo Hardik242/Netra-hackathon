@@ -49,7 +49,7 @@ export default function Header() {
 
     return (
         <Navbar
-            className="bg-black text-white nav"
+            className="bg-black h-max mb-4 text-white nav"
             isMenuOpen={isMenuOpen}
             onMenuOpenChange={setIsMenuOpen}>
             <NavbarMenuToggle
