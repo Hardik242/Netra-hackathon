@@ -63,3 +63,53 @@ body {
     color: #38bdf8;
     font-weight: 700;
 }
+
+.video video {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    transform: scaleX(-1);
+}
+
+.animate-scan {
+    animation: scan-line 2.5s linear;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-iteration-count: infinite;
+    background: rgb(0, 200, 224);
+    background: linear-gradient(
+        0deg,
+        rgba(0, 200, 224, 0.85),
+        rgba(51, 211, 230, 0.8),
+        rgba(115, 225, 238, 0.6),
+        rgba(159, 235, 243, 0.4),
+        rgba(209, 246, 249, 0.2)
+    );
+}
+
+@keyframes scan-line {
+    0% {
+        transform: translateY(-100%) scaleY(1);
+    }
+    49% {
+        transform: translateY(80cqh) scaleY(1);
+    }
+    50% {
+        transform: translateY(80cqh) scaleY(-1);
+    }
+    100% {
+        transform: translateY(-100%) scaleY(-1);
+    }
+}
+
+@keyframes scan-line-reverse {
+    0% {
+        transform: translateY(100%);
+        background-color: transparent;
+    }
+    50% {
+        transform: translateY(0%);
+    }
+    100% {
+    }
+}

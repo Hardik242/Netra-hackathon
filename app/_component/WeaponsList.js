@@ -20,8 +20,14 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import Image from "next/image";
+import {Suspense, useEffect, useState} from "react";
+import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import useScreenWidth from "../_hooks/useScreenWidth";
 import {BarcodeScanIcon} from "./BarcodeScanner";
+import NewWeapon from "./NewWeapon";
+import flashlight from "@/public/flashlight.png";
+import switchCamera from "@/public/switch-camera.png";
+import Spinner from "./Spinner";
 
 export default function WeaponsList({weapons}) {
     const modelMenuItems = [...new Set(weapons.map((weapon) => weapon.model))];
@@ -102,8 +108,42 @@ export default function WeaponsList({weapons}) {
 }
 
 function ScanModal() {
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
+    const [barCode, setBarCode] = useState(null);
+    const [isTorch, setIsTorch] = useState(false);
+    const [isSwitchCamera, setIsSwitchCamera] = useState(false);
+    const [stopStream, setStopStream] = useState(false);
+    const [scanError, setScanError] = useState(null);
     const screenWidth = useScreenWidth();
+
+    useEffect(() => {
+        navigator.mediaDevices
+            .getUserMedia({video: true})
+            .then((stream) => {
+                stream.getTracks().forEach((track) => track.stop());
+                setScanError(null);
+            })
+            .catch((err) => {
+                if (err.name === "NotAllowedError") {
+                    setScanError(err);
+                }
+            });
+    }, [isOpen]);
+
+    function handleTorch() {
+        setIsTorch((s) => !s);
+    }
+
+    function handleSwitchCamera() {
+        setIsSwitchCamera((s) => !s);
+    }
+
+    function onHandleClose() {
+        setStopStream(true);
+        setBarCode(null);
+        setTimeout(() => {}, 100);
+        onClose();
+    }
 
     return (
         <>
@@ -113,15 +153,23 @@ function ScanModal() {
             </Button>
 
             <Modal
+                key={"issue"}
                 placement="center"
-                size={screenWidth >= 1024 ? "md" : "full"}
+                size={
+                    screenWidth >= 1024
+                        ? "md"
+                        : barCode || scanError
+                        ? "md"
+                        : "full"
+                }
                 isOpen={isOpen}
+                hideCloseButton={true}
                 onOpenChange={onOpenChange}>
                 <ModalContent>
-                    {(onClose) => (
+                    {() => (
                         <>
                             <ModalHeader>
-                                <span className="lg:hidden">
+                                <span className="text-base lg:hidden">
                                     Scan Code to Issue new Weapon
                                 </span>
                                 <span className="hidden lg:inline">
@@ -130,7 +178,7 @@ function ScanModal() {
                             </ModalHeader>
 
                             {screenWidth >= 1024 && (
-                                <ModalBody className="gap-5">
+                                <ModalBody key={1} className="gap-5">
                                     <Input
                                         type="text"
                                         variant="faded"
@@ -142,26 +190,113 @@ function ScanModal() {
                                     />
                                 </ModalBody>
                             )}
-                            {screenWidth < 1024 && (
-                                <ModalBody className="gap-5"></ModalBody>
+
+                            {screenWidth < 1024 && scanError && !barCode && (
+                                <ModalBody key={2}>
+                                    <p className="text-red-500">
+                                        Error message: {scanError.message}
+                                    </p>
+                                    <p className="font-bold">
+                                        {scanError.name === "NotAllowedError" &&
+                                            "Camera access is denied. Please go to your browser settings to reset permissions."}
+                                    </p>
+                                </ModalBody>
                             )}
 
-                            <ModalFooter>
-                                <Button
-                                    size="sm"
-                                    className="p-1"
-                                    color="danger"
-                                    variant="faded"
-                                    onPress={onClose}>
-                                    Close
-                                </Button>
-                                <Button
-                                    size="sm"
-                                    color="primary"
-                                    onPress={onClose}>
-                                    {screenWidth >= 1024 ? "Enter" : "Scan"}
-                                </Button>
-                            </ModalFooter>
+                            {screenWidth < 1024 && barCode && !scanError && (
+                                <ModalBody key={3}>
+                                    {barCode}
+                                    <Suspense fallback={<Spinner />}>
+                                        <NewWeapon />
+                                    </Suspense>
+                                </ModalBody>
+                            )}
+
+                            {screenWidth < 1024 && !scanError && !barCode && (
+                                <ModalBody
+                                    key={4}
+                                    className="px-0 !py-0 overflow-hidden border-y-1">
+                                    <div className="w-full h-full relative video">
+                                        <BarcodeScannerComponent
+                                            torch={isTorch}
+                                            facingMode={
+                                                isSwitchCamera
+                                                    ? "user"
+                                                    : "environment"
+                                            }
+                                            stopStream={stopStream}
+                                            onUpdate={(err, result) => {
+                                                if (result) {
+                                                    setBarCode(result.text);
+                                                    setStopStream(true);
+                                                }
+                                            }}
+                                        />
+
+                                        <div className="animate-scan w-full h-20 absolute top-0"></div>
+                                    </div>
+                                </ModalBody>
+                            )}
+
+                            {!barCode && !scanError ? (
+                                <ModalFooter className="justify-between items-center">
+                                    <Button
+                                        size="sm"
+                                        className="p-1"
+                                        color="danger"
+                                        variant="faded"
+                                        onPress={onHandleClose}>
+                                        Cancel
+                                    </Button>
+                                    <div className="px-3 flex gap-x-4 items-center ">
+                                        <Button
+                                            color="primary"
+                                            variant="flat"
+                                            onClick={handleTorch}
+                                            className="p-1 ring-black ring-2 rounded-full">
+                                            <Image
+                                                src={flashlight}
+                                                alt="flashlight"
+                                                height={20}
+                                                width={20}
+                                            />
+                                        </Button>
+                                        <Button
+                                            color="primary"
+                                            variant="flat"
+                                            onClick={handleSwitchCamera}
+                                            className="p-1 ring-black ring-2 rounded-full">
+                                            <Image
+                                                src={switchCamera}
+                                                alt="flashlight"
+                                                height={20}
+                                                width={20}
+                                            />
+                                        </Button>
+                                    </div>
+                                </ModalFooter>
+                            ) : (
+                                <ModalFooter>
+                                    <Button
+                                        size="sm"
+                                        className="p-1"
+                                        color="danger"
+                                        variant="faded"
+                                        onPress={onHandleClose}>
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        color="primary"
+                                        onPress={onHandleClose}>
+                                        {screenWidth >= 1024
+                                            ? "Enter"
+                                            : scanError
+                                            ? "Re scan"
+                                            : barCode && "Issue"}
+                                    </Button>
+                                </ModalFooter>
+                            )}
                         </>
                     )}
                 </ModalContent>
@@ -180,6 +315,7 @@ function ReturnModal() {
             </Button>
 
             <Modal
+                key={"return"}
                 placement="center"
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}>
