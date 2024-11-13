@@ -22,7 +22,6 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import Image from "next/image";
-import {useRouter} from "next/router";
 import {Suspense, useEffect, useState} from "react";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import useScreenWidth from "../_hooks/useScreenWidth";
@@ -38,7 +37,7 @@ export default function WeaponsList({weapons}) {
 
     return (
         <div className="sm:py-4 sm:px-4 self-center flex flex-col gap-4 sm:border-stone-700 rounded-md w-full max-w-5xl">
-            <Card className="px-3 py-3 gap-4">
+            <Card key={crypto.randomUUID()} className="px-3 py-3 gap-4">
                 <ScanModal />
 
                 <div className="flex gap-1 sm:gap-2 items-center justify-center md:justify-end">
@@ -48,7 +47,9 @@ export default function WeaponsList({weapons}) {
                         label="Filter by"
                         placeholder="Model">
                         {modelMenuItems.map((item) => (
-                            <SelectItem key={item}>{item}</SelectItem>
+                            <SelectItem key={crypto.randomUUID()}>
+                                {item}
+                            </SelectItem>
                         ))}
                     </Select>
 
@@ -58,17 +59,21 @@ export default function WeaponsList({weapons}) {
                         label="Filter by"
                         placeholder="Type">
                         {typeMenuItems.map((item) => (
-                            <SelectItem key={item}>{item}</SelectItem>
+                            <SelectItem key={crypto.randomUUID()}>
+                                {item}
+                            </SelectItem>
                         ))}
                     </Select>
                 </div>
             </Card>
 
-            <Table selectionMode="multiple" shadow="md" color="primary">
-                <TableHeader className="">
-                    <TableColumn minWidth={200} key={1}>
-                        Image
-                    </TableColumn>
+            <Table
+                key={crypto.randomUUID()}
+                selectionMode="multiple"
+                shadow="md"
+                color="primary">
+                <TableHeader className="bg-slate-500">
+                    <TableColumn key={1}>Image</TableColumn>
                     <TableColumn key={2}>Serial</TableColumn>
                     <TableColumn key={3}>Model</TableColumn>
                     <TableColumn key={4}>Type</TableColumn>
@@ -78,7 +83,7 @@ export default function WeaponsList({weapons}) {
                 <TableBody>
                     {weapons.map((weapon) => (
                         <TableRow key={weapon.serial}>
-                            <TableCell>
+                            <TableCell key={crypto.randomUUID()}>
                                 <Image
                                     src={weapon.image}
                                     width={80}
@@ -87,10 +92,20 @@ export default function WeaponsList({weapons}) {
                                     alt={weapon.model}
                                 />
                             </TableCell>
-                            <TableCell>{weapon.serialNumber}</TableCell>
-                            <TableCell>{weapon.model}</TableCell>
-                            <TableCell>{weapon.type}</TableCell>
-                            <TableCell>
+
+                            <TableCell key={crypto.randomUUID()}>
+                                {weapon.serialNumber}
+                            </TableCell>
+
+                            <TableCell key={crypto.randomUUID()}>
+                                {weapon.model}
+                            </TableCell>
+
+                            <TableCell key={crypto.randomUUID()}>
+                                {weapon.type}
+                            </TableCell>
+
+                            <TableCell key={crypto.randomUUID()}>
                                 {new Date().toLocaleDateString()}
                             </TableCell>
                         </TableRow>
@@ -98,7 +113,9 @@ export default function WeaponsList({weapons}) {
                 </TableBody>
             </Table>
 
-            <Card className="px-3 py-3 gap-3 justify-between flex-row items-center">
+            <Card
+                key={crypto.randomUUID()}
+                className="px-3 py-3 gap-3 justify-between flex-row items-center">
                 <span className="text-sm text-stone-600">
                     0 of {weapons.length} selected
                 </span>
@@ -116,7 +133,6 @@ function ScanModal() {
     const [stopStream, setStopStream] = useState(false);
     const [scanError, setScanError] = useState(null);
     const screenWidth = useScreenWidth();
-    const router = useRouter();
 
     useEffect(() => {
         navigator.mediaDevices
@@ -304,8 +320,9 @@ function ScanModal() {
                                         size="sm"
                                         color="primary"
                                         onPress={() => {
-                                            if (scanError) router.refresh();
-                                            else onHandleClose;
+                                            if (scanError)
+                                                window.location.reload();
+                                            else onHandleClose();
                                         }}>
                                         {screenWidth >= 1024
                                             ? "Issue"
@@ -350,9 +367,15 @@ function ReturnModal() {
                                         size="sm"
                                         label="Reason for return"
                                         placeholder="Select a reason">
-                                        <SelectItem>Cleaning</SelectItem>
-                                        <SelectItem>Repair</SelectItem>
-                                        <SelectItem>Other</SelectItem>
+                                        <SelectItem key={crypto.randomUUID()}>
+                                            Cleaning
+                                        </SelectItem>
+                                        <SelectItem key={crypto.randomUUID()}>
+                                            Repair
+                                        </SelectItem>
+                                        <SelectItem key={crypto.randomUUID()}>
+                                            Other
+                                        </SelectItem>
                                     </Select>
                                 </div>
                             </ModalBody>
