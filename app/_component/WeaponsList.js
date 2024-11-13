@@ -22,7 +22,7 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import Image from "next/image";
-import {Suspense, useEffect, useState} from "react";
+import {Suspense, useEffect, useRef, useState} from "react";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import useScreenWidth from "../_hooks/useScreenWidth";
 import {BarcodeScanIcon} from "./BarcodeScanner";
@@ -126,34 +126,45 @@ export default function WeaponsList({weapons}) {
 }
 
 function ScanModal() {
+    const videoRef = useRef(null);
     const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
     const [barCode, setBarCode] = useState(null);
     const [isTorch, setIsTorch] = useState(false);
-    const [isSwitchCamera, setIsSwitchCamera] = useState(false);
     const [stopStream, setStopStream] = useState(false);
     const [scanError, setScanError] = useState(null);
+    const [facingModes, setFacingModes] = useState("environment");
+
     const screenWidth = useScreenWidth();
 
     useEffect(() => {
-        navigator.mediaDevices
-            .getUserMedia({video: true})
-            .then((stream) => {
-                stream.getTracks().forEach((track) => track.stop());
-                setScanError(null);
-            })
-            .catch((err) => {
-                if (err.name === "NotAllowedError") {
-                    setScanError(err);
-                }
-            });
-    }, [isOpen]);
+        (function handleVideoPermission() {
+            navigator.mediaDevices
+                .getUserMedia({video: true})
+                .then((stream) => {
+                    stream.getTracks().forEach((track) => track.stop());
+                    setScanError(null);
+                })
+                .catch((err) => {
+                    if (err.name === "NotAllowedError") {
+                        setScanError(err);
+                    }
+                });
+        })();
+
+        if (videoRef.current) {
+            videoRef.current.classList.toggle(
+                "flip-horizontal",
+                facingModes === "user"
+            );
+        }
+    }, [facingModes]);
 
     function handleTorch() {
         setIsTorch((s) => !s);
     }
 
     function handleSwitchCamera() {
-        setIsSwitchCamera((s) => !s);
+        setFacingModes((prev) => (prev === "user" ? "environment" : "user"));
     }
 
     function onHandleClose() {
@@ -247,14 +258,12 @@ function ScanModal() {
                                 <ModalBody
                                     key={4}
                                     className="px-0 !py-0 overflow-hidden border-y-1">
-                                    <div className="w-full h-full relative video">
+                                    <div
+                                        className="w-full h-full relative video"
+                                        ref={videoRef}>
                                         <BarcodeScannerComponent
                                             torch={isTorch}
-                                            facingMode={
-                                                isSwitchCamera
-                                                    ? "user"
-                                                    : "environment"
-                                            }
+                                            facingMode={facingModes}
                                             stopStream={stopStream}
                                             onUpdate={(err, result) => {
                                                 if (result) {

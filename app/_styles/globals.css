@@ -68,6 +68,8 @@ body {
     object-fit: cover;
     height: 100%;
     width: 100%;
+}
+.flip-horizontal video {
     transform: scaleX(-1);
 }
 
