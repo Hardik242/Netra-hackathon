@@ -1,5 +1,7 @@
 "use client";
 
+import flashlight from "@/public/flashlight.png";
+import switchCamera from "@/public/switch-camera.png";
 import {
     Button,
     Card,
@@ -20,13 +22,12 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import Image from "next/image";
+import {useRouter} from "next/router";
 import {Suspense, useEffect, useState} from "react";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import useScreenWidth from "../_hooks/useScreenWidth";
 import {BarcodeScanIcon} from "./BarcodeScanner";
 import NewWeapon from "./NewWeapon";
-import flashlight from "@/public/flashlight.png";
-import switchCamera from "@/public/switch-camera.png";
 import Spinner from "./Spinner";
 
 export default function WeaponsList({weapons}) {
@@ -115,6 +116,7 @@ function ScanModal() {
     const [stopStream, setStopStream] = useState(false);
     const [scanError, setScanError] = useState(null);
     const screenWidth = useScreenWidth();
+    const router = useRouter();
 
     useEffect(() => {
         navigator.mediaDevices
@@ -169,9 +171,21 @@ function ScanModal() {
                     {() => (
                         <>
                             <ModalHeader>
-                                <span className="text-base lg:hidden">
-                                    Scan Code to Issue new Weapon
-                                </span>
+                                {!barCode && !scanError && (
+                                    <span className="text-base lg:hidden">
+                                        Scan Code to Issue new Weapon
+                                    </span>
+                                )}
+                                {!barCode && scanError && (
+                                    <span className="text-base lg:hidden">
+                                        Some unexpected Error occured
+                                    </span>
+                                )}
+                                {barCode && !scanError && (
+                                    <span className="text-base lg:hidden">
+                                        Issue new Weapon
+                                    </span>
+                                )}
                                 <span className="hidden lg:inline">
                                     Enter Code to Issue new Weapon
                                 </span>
@@ -200,6 +214,7 @@ function ScanModal() {
                                         {scanError.name === "NotAllowedError" &&
                                             "Camera access is denied. Please go to your browser settings to reset permissions."}
                                     </p>
+                                    <p>Refresh page and try again</p>
                                 </ModalBody>
                             )}
 
@@ -238,7 +253,7 @@ function ScanModal() {
                                 </ModalBody>
                             )}
 
-                            {!barCode && !scanError ? (
+                            {screenWidth < 1024 && !barCode && !scanError ? (
                                 <ModalFooter className="justify-between items-center">
                                     <Button
                                         size="sm"
@@ -288,11 +303,14 @@ function ScanModal() {
                                     <Button
                                         size="sm"
                                         color="primary"
-                                        onPress={onHandleClose}>
+                                        onPress={() => {
+                                            if (scanError) router.refresh();
+                                            else onHandleClose;
+                                        }}>
                                         {screenWidth >= 1024
-                                            ? "Enter"
+                                            ? "Issue"
                                             : scanError
-                                            ? "Re scan"
+                                            ? "Refresh Page"
                                             : barCode && "Issue"}
                                     </Button>
                                 </ModalFooter>
