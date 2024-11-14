@@ -154,7 +154,7 @@ export default function Header() {
                                 href={`/${
                                     path.split("/")[1]
                                 }/${item.toLowerCase()}`}>
-                                {item}
+                                {item.charAt(0).toUpperCase() + item.slice(1)}
                             </Link>
                         </NavbarMenuItem>
                     );
