@@ -36,7 +36,7 @@ export default function WeaponsList({weapons}) {
     typeMenuItems.unshift("All");
 
     return (
-        <div className="sm:py-4 sm:px-4 self-center flex flex-col gap-4 sm:border-stone-700 rounded-md w-full max-w-5xl">
+        <div className="sm:py-4 sm:px-4 self-center flex flex-col gap-4 text-black sm:border-stone-700 rounded-md w-full max-w-5xl">
             <Card key={crypto.randomUUID()} className="px-3 py-3 gap-4">
                 <ScanModal />
 
