@@ -21,7 +21,7 @@ export default function RootLayout({children}) {
     return (
         <html lang="en">
             <body
-                className={`${poppins.className} bg-slate-100 flex flex-col relative min-h-screen w-screen overflow-x-hidden antialiased`}>
+                className={`${poppins.className} bg-slate-100 text-black flex flex-col relative min-h-screen w-screen overflow-x-hidden antialiased`}>
                 {
                     <>
                         <Header />
