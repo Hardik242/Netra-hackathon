@@ -16,7 +16,7 @@ export default function Logo({isSize = false}) {
         <Link href="/" className="flex gap-3 justify-center items-center">
             <div
                 className={`rounded-full overflow-hidden ${
-                    isSize ? "size-16" : "size-12"
+                    isSize ? "size-16" : "size-11 sm:size-12"
                 } border flex items-center justify-center`}>
                 <Image
                     src={icon}
@@ -26,7 +26,7 @@ export default function Logo({isSize = false}) {
                 />
             </div>
             <p
-                className={`text-blue-500 text-2xl tracking-wider font-bold ${fontStyle.className}`}>
+                className={`text-blue-500 text-xl sm:text-2xl tracking-wider font-bold ${fontStyle.className}`}>
                 Netra
             </p>
         </Link>

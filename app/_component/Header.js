@@ -98,7 +98,7 @@ export default function Header() {
                         <NavbarItem
                             className={`${
                                 path.split("/")[2] === item
-                                    ? "active !text-sky-400 after:w-full after:left-0 font-semibold "
+                                    ? "active !text-sky-400 font-bold after:w-full after:left-0"
                                     : "hover:text-sky-400 hover:after:w-full hover:after:left-0 hover:font-semibold after:w-0 after:left-1/2"
                             } cursor-pointer items-center flex h-full relative after:absolute after:bottom-0  after:bg-white  after:h-[5px] after:transition-all after:ease-in-out after:duration-300 tracking-wide`}
                             key={item}>
@@ -114,7 +114,7 @@ export default function Header() {
 
             <Dropdown>
                 <DropdownTrigger>
-                    <Avatar className="!ml-5 ring-2 ring-offset-2 ring-sky-400 ring-offset-black cursor-pointer hover:scale-105" />
+                    <Avatar className="sm:!ml-5 ring-2 ring-offset-2 ring-sky-400 ring-offset-black cursor-pointer hover:scale-105" />
                 </DropdownTrigger>
 
                 <DropdownMenu>
@@ -170,16 +170,16 @@ export default function Header() {
                 </DropdownMenu>
             </Dropdown>
 
-            <NavbarMenu className="bg-slate-900 text-white menu">
+            <NavbarMenu className="bg-slate-900 text-white">
                 {menuItems.map((item) => {
                     return (
                         <NavbarMenuItem
                             key={item}
                             className={`${
                                 path.split("/")[2] === item
-                                    ? "active bg-slate-800"
+                                    ? "text-sky-400 font-bold bg-slate-800"
                                     : ""
-                            } py-2 text-xl rounded-lg px-4 tracking-wide font-normal`}>
+                            } py-2 text-xl rounded-xl px-4 tracking-wide font-normal`}>
                             <Link
                                 className={``}
                                 href={`/${

@@ -53,16 +53,6 @@ body {
     }
 }
 
-.nav .active {
-    color: #38bdf8;
-    font-weight: 700;
-}
-
-.menu .active {
-    color: #38bdf8;
-    font-weight: 700;
-}
-
 .video video {
     object-fit: cover;
     height: 100%;
