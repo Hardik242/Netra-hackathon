@@ -96,13 +96,15 @@ export default function Header() {
                 {menuItems.map((item) => {
                     return (
                         <NavbarItem
-                            className="hover:text-sky-400 cursor-pointer items-center flex h-full relative after:absolute after:bottom-0 after:left-1/2 after:bg-white after:w-0 after:h-[5px] hover:after:w-full hover:after:left-0 after:transition-all after:ease-in-out after:duration-300 tracking-wide hover:font-semibold"
+                            className={`${
+                                path.split("/")[2] === item
+                                    ? "active !text-sky-400 after:w-full after:left-0 font-semibold "
+                                    : "hover:text-sky-400 hover:after:w-full hover:after:left-0 hover:font-semibold after:w-0 after:left-1/2"
+                            } cursor-pointer items-center flex h-full relative after:absolute after:bottom-0  after:bg-white  after:h-[5px] after:transition-all after:ease-in-out after:duration-300 tracking-wide`}
                             key={item}>
                             <Link
                                 href={`/${path.split("/")[1]}/${item}`}
-                                className={`${
-                                    path === "/" + item && "active"
-                                } flex items-center h-full `}>
+                                className=" flex items-center h-full ">
                                 {item.charAt(0).toUpperCase() + item.slice(1)}
                             </Link>
                         </NavbarItem>
@@ -174,13 +176,16 @@ export default function Header() {
                         <NavbarMenuItem
                             key={item}
                             className={`${
-                                path === "/" + item.toLowerCase() && "active"
-                            } py-2 text-xl tracking-wide font-normal`}>
+                                path.split("/")[2] === item
+                                    ? "active bg-slate-800"
+                                    : ""
+                            } py-2 text-xl rounded-lg px-4 tracking-wide font-normal`}>
                             <Link
                                 className={``}
                                 href={`/${
                                     path.split("/")[1]
-                                }/${item.toLowerCase()}`}>
+                                }/${item.toLowerCase()}`}
+                                onClick={() => setIsMenuOpen(false)}>
                                 {item.charAt(0).toUpperCase() + item.slice(1)}
                             </Link>
                         </NavbarMenuItem>
