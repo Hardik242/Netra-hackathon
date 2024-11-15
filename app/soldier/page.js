@@ -1,5 +1,9 @@
-import {redirect} from "next/navigation";
+import {customRedirect} from "../_services/dataFunctions";
+
+export const metadata = {
+    title: "Soldier",
+};
 
 export default function Page() {
-    redirect("/soldier/weapons");
+    customRedirect("/soldier/weapons");
 }

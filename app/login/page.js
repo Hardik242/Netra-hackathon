@@ -1,3 +1,6 @@
+"use client";
+
+import loginBG from "@/public/loginBG.jpg";
 import {
     Button,
     Card,
@@ -8,7 +11,6 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-import loginBG from "@/public/loginBG.jpg";
 import Logo from "../_component/Logo";
 
 export default function Page() {
@@ -35,20 +37,22 @@ export default function Page() {
                         label="Email"
                         variant="faded"
                         radius="full"
-                        defaultValue="hardikgoel@example.com"
                         labelPlacement="outside"
                         placeholder="m@example.com"
-                        required
+                        errorMessage="Please enter valid email"
+                        isRequired
+                        isClearable
                     />
                     <Input
                         type="password"
                         label="Password"
                         variant="faded"
                         radius="full"
-                        defaultValue="test01234"
                         labelPlacement="outside"
                         placeholder="Enter your password"
-                        required
+                        errorMessage="Incorrect password"
+                        isRequired
+                        isClearable
                     />
                 </CardBody>
                 <CardFooter className="flex flex-col space-y-2 overflow-visible">

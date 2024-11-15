@@ -30,15 +30,34 @@ import NewWeapon from "./NewWeapon";
 import Spinner from "./Spinner";
 
 export default function WeaponsList({weapons}) {
+    const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
+    const {
+        isOpen: returnIsOpen,
+        onOpen: returnOnOpen,
+        onOpenChange: returnOnOpenChange,
+        onClose: returnOnClose,
+    } = useDisclosure();
     const modelMenuItems = [...new Set(weapons.map((weapon) => weapon.model))];
     modelMenuItems.unshift("All");
     const typeMenuItems = [...new Set(weapons.map((weapon) => weapon.type))];
     typeMenuItems.unshift("All");
 
     return (
-        <div className="sm:py-4 sm:px-4 self-center flex flex-col gap-4 text-black sm:border-stone-700 rounded-md w-full max-w-5xl">
+        <div className="sm:py-4 sm:px-4 self-center flex flex-col gap-4 sm:border-stone-700 rounded-md w-full max-w-5xl">
             <Card key={crypto.randomUUID()} className="px-3 py-3 gap-4">
-                <ScanModal />
+                <Button variant="shadow" color="primary" onPress={onOpen}>
+                    <BarcodeScanIcon />{" "}
+                    <span className="text-sm sm:text-base">
+                        Issue new weapon
+                    </span>
+                </Button>
+                {isOpen && (
+                    <ScanModal
+                        isOpen={isOpen}
+                        onOpenChange={onOpenChange}
+                        onClose={onClose}
+                    />
+                )}
 
                 <div className="flex gap-1 sm:gap-2 items-center justify-center md:justify-end">
                     <Select
@@ -119,15 +138,21 @@ export default function WeaponsList({weapons}) {
                 <span className="text-sm text-stone-600">
                     0 of {weapons.length} selected
                 </span>
-                <ReturnModal />
+                <Button color="danger" onPress={returnOnOpen}>
+                    Return Weapon
+                </Button>
+                <ReturnModal
+                    isOpen={returnIsOpen}
+                    onOpenChange={returnOnOpenChange}
+                    onClose={returnOnClose}
+                />
             </Card>
         </div>
     );
 }
 
-function ScanModal() {
+function ScanModal({isOpen, onClose, onOpenChange}) {
     const videoRef = useRef(null);
-    const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
     const [barCode, setBarCode] = useState(null);
     const [isTorch, setIsTorch] = useState(false);
     const [stopStream, setStopStream] = useState(false);
@@ -137,6 +162,7 @@ function ScanModal() {
     const screenWidth = useScreenWidth();
 
     useEffect(() => {
+        if (screenWidth === 0 || screenWidth >= 1024) return;
         (function handleVideoPermission() {
             navigator.mediaDevices
                 .getUserMedia({video: true})
@@ -157,7 +183,7 @@ function ScanModal() {
                 facingModes === "user"
             );
         }
-    }, [facingModes]);
+    }, [facingModes, screenWidth]);
 
     function handleTorch() {
         setIsTorch((s) => !s);
@@ -176,12 +202,9 @@ function ScanModal() {
 
     return (
         <>
-            <Button variant="shadow" color="primary" onPress={onOpen}>
-                <BarcodeScanIcon />{" "}
-                <span className="text-sm sm:text-base">Issue new weapon</span>
-            </Button>
-
             <Modal
+                isDismissable={false}
+                isKeyboardDismissDisabled={true}
                 key={"issue"}
                 placement="center"
                 size={
@@ -193,7 +216,19 @@ function ScanModal() {
                 }
                 isOpen={isOpen}
                 hideCloseButton={true}
-                onOpenChange={onOpenChange}>
+                onOpenChange={onOpenChange}
+                motionProps={{
+                    variants: {
+                        enter: {
+                            y: 0,
+                            opacity: 1,
+                            transition: {
+                                duration: 0.4,
+                                ease: "easeInOut",
+                            },
+                        },
+                    },
+                }}>
                 <ModalContent>
                     {() => (
                         <>
@@ -254,29 +289,32 @@ function ScanModal() {
                                 </ModalBody>
                             )}
 
-                            {screenWidth < 1024 && !scanError && !barCode && (
-                                <ModalBody
-                                    key={4}
-                                    className="px-0 !py-0 overflow-hidden border-y-1">
-                                    <div
-                                        className="w-full h-full relative video"
-                                        ref={videoRef}>
-                                        <BarcodeScannerComponent
-                                            torch={isTorch}
-                                            facingMode={facingModes}
-                                            stopStream={stopStream}
-                                            onUpdate={(err, result) => {
-                                                if (result) {
-                                                    setBarCode(result.text);
-                                                    setStopStream(true);
-                                                }
-                                            }}
-                                        />
+                            {screenWidth < 1024 &&
+                                screenWidth !== 0 &&
+                                !scanError &&
+                                !barCode && (
+                                    <ModalBody
+                                        key={4}
+                                        className="px-0 !py-0 overflow-hidden border-y-1">
+                                        <div
+                                            className="w-full h-full relative video"
+                                            ref={videoRef}>
+                                            <BarcodeScannerComponent
+                                                torch={isTorch}
+                                                facingMode={facingModes}
+                                                stopStream={stopStream}
+                                                onUpdate={(err, result) => {
+                                                    if (result) {
+                                                        setBarCode(result.text);
+                                                        setStopStream(true);
+                                                    }
+                                                }}
+                                            />
 
-                                        <div className="animate-scan w-full h-20 absolute top-0"></div>
-                                    </div>
-                                </ModalBody>
-                            )}
+                                            <div className="animate-scan w-full h-20 absolute top-0"></div>
+                                        </div>
+                                    </ModalBody>
+                                )}
 
                             {screenWidth < 1024 && !barCode && !scanError ? (
                                 <ModalFooter className="justify-between items-center">
@@ -349,22 +387,18 @@ function ScanModal() {
     );
 }
 
-function ReturnModal() {
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
-
+function ReturnModal({isOpen, onClose, onOpenChange}) {
     return (
         <>
-            <Button color="danger" onPress={onOpen}>
-                Return Weapon
-            </Button>
-
             <Modal
+                isDismissable={false}
+                isKeyboardDismissDisabled={true}
                 key={"return"}
                 placement="center"
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}>
                 <ModalContent>
-                    {(onClose) => (
+                    {() => (
                         <>
                             <ModalHeader>Return Weapon WPN0011</ModalHeader>
                             <ModalBody className="gap-5">

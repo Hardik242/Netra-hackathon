@@ -1,6 +1,10 @@
 "use client";
 
 import {
+    ArrowLeftStartOnRectangleIcon,
+    UserIcon,
+} from "@heroicons/react/24/solid";
+import {
     Avatar,
     Button,
     Dropdown,
@@ -15,21 +19,16 @@ import {
     NavbarMenuItem,
     NavbarMenuToggle,
 } from "@nextui-org/react";
-import {useState} from "react";
-import Logo from "./Logo";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {
-    ArrowLeftStartOnRectangleIcon,
-    UserIcon,
-} from "@heroicons/react/24/solid";
+import {useState} from "react";
+import Logo from "./Logo";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const path = usePathname();
 
     if (path.split("/")[1] === "login") return null;
-    // console.log(path.split("/")[1]);
     let menuItems = [];
 
     switch (path.split("/")[1]) {
@@ -128,6 +127,34 @@ export default function Header() {
                             href={`/${path.split("/")[1]}/account`}
                             startContent={<UserIcon className=" size-4" />}>
                             <span>Account</span>
+                        </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                        <Link
+                            href={`/admin`}
+                            startContent={<UserIcon className=" size-4" />}>
+                            <span>Admin</span>
+                        </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                        <Link
+                            href={`/soldier`}
+                            startContent={<UserIcon className=" size-4" />}>
+                            <span>Soldier</span>
+                        </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                        <Link
+                            href={`/officer`}
+                            startContent={<UserIcon className=" size-4" />}>
+                            <span>Officer</span>
+                        </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                        <Link
+                            href={`/technician`}
+                            startContent={<UserIcon className=" size-4" />}>
+                            <span>Technician</span>
                         </Link>
                     </DropdownItem>
                     <DropdownItem key="logout" className="!p-0">

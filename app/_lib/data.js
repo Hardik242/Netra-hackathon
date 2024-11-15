@@ -77,7 +77,7 @@ export async function generateAndUploadData() {
     for (let i = 0; i < numUsers; i++) {
         usersData.push({
             email: `soldier${i + 1}@example.com`,
-            password: `password${i + 1}`,
+            password: `test01234`,
             options: {
                 data: {
                     role: [
@@ -181,7 +181,7 @@ export async function generateAndUploadData() {
                     ? "return"
                     : "maintenance",
             userId:
-                randomTransactionType === (0 || 2)
+                randomTransactionType === 0 || randomTransactionType === 2
                     ? soldierIds[Math.floor(Math.random() * soldierIds.length)]
                           .user.id
                     : officerIds[Math.floor(Math.random() * officerIds.length)]

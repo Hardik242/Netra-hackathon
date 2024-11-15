@@ -1,3 +1,6 @@
+import {customRedirect} from "./_services/dataFunctions";
+
 export default function Page() {
-    return <h1>Homepage</h1>;
+    // return <CheckLoggedin />;
+    customRedirect("login");
 }
