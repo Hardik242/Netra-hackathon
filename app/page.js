@@ -1,6 +1,6 @@
-import {customRedirect} from "./_services/dataFunctions";
+import {redirect} from "next/navigation";
 
 export default function Page() {
     // return <CheckLoggedin />;
-    customRedirect("login");
+    redirect("/login");
 }

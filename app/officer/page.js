@@ -1,3 +1,5 @@
+import {redirect} from "next/navigation";
+
 export default function page() {
-    return <div>Extra page</div>;
+    return redirect("/officer/dashboard");
 }

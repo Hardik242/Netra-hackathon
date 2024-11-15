@@ -1,6 +1,5 @@
 "use server";
 
-import {permanentRedirect} from "next/navigation";
 import {supabase} from "../_lib/supabase";
 
 export async function getWeapons(Id) {
@@ -40,6 +39,14 @@ export async function userLoginWithEmail({email, password}) {
     return {data, error};
 }
 
-export async function customRedirect(pathname) {
-    permanentRedirect(`/${pathname}`);
+export async function getSoldierTransaction(id) {
+    const {data, error} = await supabase
+        .from("transactions")
+        .select("*,weapons(*)")
+        .eq("id", id);
+    if (error) {
+        console.log(error);
+        throw new Error("transactions could not be loaded");
+    }
+    return data;
 }

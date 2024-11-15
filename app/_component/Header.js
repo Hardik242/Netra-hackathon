@@ -126,6 +126,7 @@ export default function Header() {
                     </DropdownItem>
                     <DropdownItem>
                         <Link
+                            className="block"
                             href={`/${path.split("/")[1]}/account`}
                             startContent={<UserIcon className=" size-4" />}>
                             <span>Account</span>
@@ -133,6 +134,7 @@ export default function Header() {
                     </DropdownItem>
                     <DropdownItem>
                         <Link
+                            className="block"
                             href={`/admin`}
                             startContent={<UserIcon className=" size-4" />}>
                             <span>Admin</span>
@@ -140,6 +142,7 @@ export default function Header() {
                     </DropdownItem>
                     <DropdownItem>
                         <Link
+                            className="block"
                             href={`/soldier`}
                             startContent={<UserIcon className=" size-4" />}>
                             <span>Soldier</span>
@@ -147,6 +150,7 @@ export default function Header() {
                     </DropdownItem>
                     <DropdownItem>
                         <Link
+                            className="block"
                             href={`/officer`}
                             startContent={<UserIcon className=" size-4" />}>
                             <span>Officer</span>
@@ -154,6 +158,7 @@ export default function Header() {
                     </DropdownItem>
                     <DropdownItem>
                         <Link
+                            className="block"
                             href={`/technician`}
                             startContent={<UserIcon className=" size-4" />}>
                             <span>Technician</span>
