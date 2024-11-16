@@ -1,10 +1,19 @@
 import WeaponsList from "@/app/_component/WeaponsList";
 import {getWeapons} from "@/app/_services/dataFunctions";
+import {createClient} from "@/utils/supabase/server";
 
 export const validate = 0;
 
 export default async function Page() {
-    const weapons = await getWeapons("482d1b70-ae83-4628-ad14-61fdda18cca2");
+    const supabase = await createClient();
+    const {
+        data: {
+            user: {id},
+        },
+    } = await supabase.auth.getUser();
+    console.log(id);
+
+    const weapons = await getWeapons(id);
 
     return (
         <div className="py-2 flex gap-5 flex-col w-full">

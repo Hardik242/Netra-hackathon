@@ -1,6 +1,8 @@
 "use server";
 
-import {supabase} from "../_lib/supabase";
+import {createClient} from "@/utils/supabase/server";
+
+const supabase = await createClient();
 
 export async function getWeapons(Id) {
     const {data, error} = await supabase

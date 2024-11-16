@@ -1,14 +1,19 @@
 import SoldierRecords from "@/app/_component/SoldierRecords";
 import Spinner from "@/app/_component/Spinner";
 import {getSoldierTransactions} from "@/app/_services/dataFunctions";
+import {createClient} from "@/utils/supabase/server";
 import {Suspense} from "react";
 
 export const validate = 0;
 
 export default async function Page() {
-    const transactions = await getSoldierTransactions(
-        "482d1b70-ae83-4628-ad14-61fdda18cca2"
-    );
+    const supabase = await createClient();
+    const {
+        data: {
+            user: {id},
+        },
+    } = await supabase.auth.getUser();
+    const transactions = await getSoldierTransactions(id);
 
     return (
         <div className="py-2 flex gap-5 flex-col w-full">
