@@ -1,7 +1,9 @@
 "use server";
 
+import {createClient} from "@/utils/supabase/server";
 import {faker} from "@faker-js/faker";
-import {supabase} from "./supabase";
+
+const supabase = await createClient();
 
 const supabaseURL =
     "https://owtuzlfrjwlpygwbomcc.supabase.co/storage/v1/object/public/weapons/";
