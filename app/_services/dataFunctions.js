@@ -2,9 +2,8 @@
 
 import {createClient} from "@/utils/supabase/server";
 
-const supabase = await createClient();
-
 export async function getWeapons(Id) {
+    const supabase = await createClient();
     const {data, error} = await supabase
         .from("weapons")
         .select("serialNumber,type,model,status,image,updated_at")
@@ -18,6 +17,7 @@ export async function getWeapons(Id) {
 }
 
 export async function getSoldierTransactions(Id) {
+    const supabase = await createClient();
     const {data, error} = await supabase
         .from("transactions")
         .select("*")
@@ -30,6 +30,7 @@ export async function getSoldierTransactions(Id) {
 }
 
 export async function userLoginWithEmail({email, password}) {
+    const supabase = await createClient();
     const {data, error} = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -42,6 +43,7 @@ export async function userLoginWithEmail({email, password}) {
 }
 
 export async function getSoldierTransaction(id) {
+    const supabase = await createClient();
     const {data, error} = await supabase
         .from("transactions")
         .select("*,weapons(*)")

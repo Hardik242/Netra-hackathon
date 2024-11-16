@@ -3,8 +3,6 @@
 import {createClient} from "@/utils/supabase/server";
 import {faker} from "@faker-js/faker";
 
-const supabase = await createClient();
-
 const supabaseURL =
     "https://owtuzlfrjwlpygwbomcc.supabase.co/storage/v1/object/public/weapons/";
 
@@ -22,6 +20,7 @@ function getSupabaseDateFormat(sDate) {
 }
 
 export async function generateAndUploadData() {
+    const supabase = await createClient();
     // Replace these with your actual weapon type and model arrays
     const weaponTypes = [
         "Assault Rifle",
