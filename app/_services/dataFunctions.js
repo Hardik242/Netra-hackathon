@@ -1,6 +1,8 @@
 "use server";
 
 import {createClient} from "@/utils/supabase/server";
+import {revalidatePath} from "next/cache";
+import {redirect} from "next/navigation";
 
 export async function getWeapons(Id) {
     const supabase = await createClient();
@@ -53,4 +55,18 @@ export async function getSoldierTransaction(id) {
         throw new Error("transactions could not be loaded");
     }
     return data;
+}
+
+export async function useLogoutUser() {
+    const supabase = await createClient();
+
+    const {error} = await supabase.auth.signOut();
+
+    if (error) {
+        console.log(error);
+        throw new Error("Error logging out");
+    }
+
+    revalidatePath("/");
+    redirect("/login");
 }

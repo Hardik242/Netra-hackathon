@@ -8,8 +8,7 @@ export async function middleware(request) {
         data: {user},
     } = await supabase.auth.getUser();
 
-    //     console.log(role);
-
+    //If user is not logged in and accessing protected routes, then redirect user to /login
     if (!user && !request.nextUrl.pathname.startsWith("/login")) {
         console.log("here");
         return NextResponse.redirect(new URL(`/login`, request.url));
@@ -17,11 +16,12 @@ export async function middleware(request) {
 
     const {role} = user?.user_metadata || "error";
 
+    //If user is logged in and accessing same role route, then give access to the route
     if (user && request.nextUrl.pathname.startsWith(`/${role}`)) {
         return NextResponse.next();
-    } else if (user && !request.nextUrl.pathname.startsWith(`/${role}`)) {
-        return NextResponse.redirect(new URL(`/${role}`, request.url));
-    } else if (user) {
+    }
+    //If user is logged in and accessing any random route other than same role, then redirect to same role route
+    else if (user) {
         return NextResponse.redirect(new URL(`/${role}`, request.url));
     }
 }

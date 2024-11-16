@@ -1,12 +1,7 @@
 import loginBG from "@/public/loginBG.jpg";
-import {
-    Button,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    Input,
-} from "@nextui-org/react";
+import {Card, CardBody, CardFooter, CardHeader} from "@nextui-org/card";
+import {Button} from "@nextui-org/button";
+import {Input} from "@nextui-org/input";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "../_component/Logo";
@@ -14,23 +9,22 @@ import {login} from "./actions";
 
 export default async function Page() {
     return (
-        <form>
-            <div className="flex w-full min-h-full justify-center items-center">
-                <Image
-                    src={loginBG}
-                    fill
-                    className="object-cover object-top"
-                    quality={90}
-                    alt="bg image"
-                />
-                <Card className="min-w-72 flex-1 max-w-md my-5 overflow-visible">
-                    <CardHeader className="py-5 flex justify-center flex-col gap-4 ">
-                        <Logo isSize />
-                        <h1 className="w-full font-bold text-4xl text-center">
-                            Login
-                        </h1>
-                    </CardHeader>
-
+        <div className="flex w-full min-h-full justify-center items-center">
+            <Image
+                src={loginBG}
+                fill
+                className="object-cover object-top"
+                quality={90}
+                alt="bg image"
+            />
+            <Card className="min-w-72 flex-1 max-w-md my-5 overflow-visible">
+                <CardHeader className="py-5 flex justify-center flex-col gap-4 ">
+                    <Logo isSize />
+                    <h1 className="w-full font-bold text-4xl text-center">
+                        Login
+                    </h1>
+                </CardHeader>
+                <form>
                     <CardBody className="flex gap-6 py-6 overflow-visible">
                         <Input
                             type="email"
@@ -74,8 +68,8 @@ export default async function Page() {
                             Forgot Password?
                         </Link>
                     </CardFooter>
-                </Card>
-            </div>{" "}
-        </form>
+                </form>
+            </Card>
+        </div>
     );
 }

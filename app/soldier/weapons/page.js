@@ -2,8 +2,6 @@ import WeaponsList from "@/app/_component/WeaponsList";
 import {getWeapons} from "@/app/_services/dataFunctions";
 import {createClient} from "@/utils/supabase/server";
 
-export const validate = 0;
-
 export default async function Page() {
     const supabase = await createClient();
     const {

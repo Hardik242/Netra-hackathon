@@ -23,6 +23,7 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {useState} from "react";
 import Logo from "./Logo";
+import {useLogoutUser} from "../_services/dataFunctions";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -165,12 +166,16 @@ export default function Header() {
                         </Link>
                     </DropdownItem>
                     <DropdownItem key="logout" className="!p-0">
-                        <Button
-                            className="w-full h-full !m-0 px-3 py-2"
-                            color="danger">
-                            <ArrowLeftStartOnRectangleIcon className="size-4" />
-                            <span>Logout</span>
-                        </Button>
+                        <form>
+                            <Button
+                                type="submit"
+                                formAction={useLogoutUser}
+                                className="w-full h-full !m-0 px-3 py-2"
+                                color="danger">
+                                <ArrowLeftStartOnRectangleIcon className="size-4" />
+                                <span>Logout</span>
+                            </Button>
+                        </form>
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
