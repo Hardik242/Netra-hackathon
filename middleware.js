@@ -6,11 +6,17 @@ export async function middleware(request) {
 
     const {
         data: {user},
+        error,
     } = await supabase.auth.getUser();
 
+    if (error) {
+        console.log(error);
+    }
+
     //If user is not logged in and accessing protected routes, then redirect user to /login
-    if (!user && !request.nextUrl.pathname.startsWith("/login")) {
-        console.log("here");
+    if (!user && request.nextUrl.pathname.startsWith("/login")) {
+        return NextResponse.next();
+    } else if (!user && !request.nextUrl.pathname.startsWith("/login")) {
         return NextResponse.redirect(new URL(`/login`, request.url));
     }
 

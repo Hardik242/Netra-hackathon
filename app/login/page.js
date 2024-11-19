@@ -1,20 +1,49 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import loginBG from "@/public/loginBG.jpg";
-import {Card, CardBody, CardFooter, CardHeader} from "@nextui-org/card";
-import {Button} from "@nextui-org/button";
-import {Input} from "@nextui-org/input";
+import Spinner from "../_component/Spinner";
+
+const Button = dynamic(() =>
+    import("@nextui-org/react").then((nextui) => nextui.Button)
+);
+
+const Card = dynamic(
+    () => import("@nextui-org/react").then((nextui) => nextui.Card),
+    {
+        loading: () => <Spinner />,
+    }
+);
+
+const CardBody = dynamic(() =>
+    import("@nextui-org/react").then((nextui) => nextui.CardBody)
+);
+
+const CardFooter = dynamic(() =>
+    import("@nextui-org/react").then((nextui) => nextui.CardFooter)
+);
+
+const CardHeader = dynamic(() =>
+    import("@nextui-org/react").then((nextui) => nextui.CardHeader)
+);
+
+const Input = dynamic(() =>
+    import("@nextui-org/react").then((nextui) => nextui.Input)
+);
+
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "../_component/Logo";
 import {login} from "./actions";
 
-export default async function Page() {
+export default function Page() {
     return (
         <div className="flex w-full min-h-full justify-center items-center">
             <Image
                 src={loginBG}
                 fill
                 className="object-cover object-top"
-                quality={90}
+                quality={50}
                 alt="bg image"
             />
             <Card className="min-w-72 flex-1 max-w-md my-5 overflow-visible">
