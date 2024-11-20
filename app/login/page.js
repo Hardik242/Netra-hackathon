@@ -1,7 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import loginBG from "@/public/loginBG.jpg";
+import loginBG from "@/public/bg-login.png";
+
 import Spinner from "../_component/Spinner";
 
 const Button = dynamic(() =>
@@ -35,6 +36,12 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "../_component/Logo";
 import {login} from "./actions";
+import {Playfair_Display} from "next/font/google";
+
+const fontLogin = Playfair_Display({
+    subsets: ["latin"],
+    display: "swap",
+});
 
 export default function Page() {
     return (
@@ -42,14 +49,15 @@ export default function Page() {
             <Image
                 src={loginBG}
                 fill
-                className="object-cover object-top"
-                quality={50}
+                className="object-cover"
+                quality={90}
                 alt="bg image"
             />
-            <Card className="min-w-72 flex-1 max-w-md my-5 overflow-visible">
+            <Card className="min-w-72 flex-1 max-w-md my-5 overflow-visible backdrop-blur-sm bg-slate-200/40">
                 <CardHeader className="py-5 flex justify-center flex-col gap-4 ">
-                    <Logo isSize />
-                    <h1 className="w-full font-bold text-4xl text-center">
+                    <Logo isSize isLogin />
+                    <h1
+                        className={`w-full font-bold text-4xl text-center ${fontLogin.className}`}>
                         Login
                     </h1>
                 </CardHeader>
@@ -61,7 +69,7 @@ export default function Page() {
                             variant="faded"
                             radius="full"
                             name="email"
-                            defaultValue="soldier1@example.com"
+                            defaultValue="soldier7@example.com"
                             labelPlacement="outside"
                             placeholder="m@example.com"
                             errorMessage="Please enter valid email"

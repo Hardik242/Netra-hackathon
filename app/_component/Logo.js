@@ -8,10 +8,9 @@ const fontStyle = localFont({
     src: "../_font/newFont.ttf",
     // subsets: ["latin"],
     display: "swap",
-    weight: "400",
 });
 
-export default function Logo({isSize = false}) {
+export default function Logo({isLogin = false, isSize = false}) {
     return (
         <Link href="/" className="flex gap-3 justify-center items-center">
             <div
@@ -25,10 +24,17 @@ export default function Logo({isSize = false}) {
                     alt="Netra Logo"
                 />
             </div>
-            <p
-                className={`text-blue-500 text-xl sm:text-2xl tracking-wider font-bold ${fontStyle.className}`}>
-                Netra
-            </p>
+            {isLogin ? (
+                <p
+                    className={`text-sky-900 font-bold text-2xl sm:text-3xl tracking-wider  ${fontStyle.className}`}>
+                    Netra
+                </p>
+            ) : (
+                <p
+                    className={`text-sky-400 font-bold text-xl sm:text-2xl tracking-wider  ${fontStyle.className}`}>
+                    Netra
+                </p>
+            )}
         </Link>
     );
 }
