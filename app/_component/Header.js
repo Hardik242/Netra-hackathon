@@ -23,7 +23,8 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {useState} from "react";
 import Logo from "./Logo";
-import {useLogoutUser} from "../_services/dataFunctions";
+import {useLogoutUser as LogoutUser} from "../_services/dataFunctions";
+import {toast} from "react-toastify";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -45,6 +46,20 @@ export default function Header() {
         case "technician":
             menuItems = ["schedules", "weapon"];
             break;
+    }
+
+    function handleLogout() {
+        toast.promise(
+            LogoutUser(),
+            {
+                pending: "Logging out...",
+                success: "Logged Out Successfully",
+                error: "Something went wrong.\n Try again.",
+            },
+            {
+                autoClose: 3000,
+            }
+        );
     }
 
     return (
@@ -125,43 +140,35 @@ export default function Header() {
                             hardikgoel242@gmail.com
                         </p>
                     </DropdownItem>
-                    <DropdownItem>
+                    <DropdownItem
+                        startContent={<UserIcon className=" size-4" />}>
                         <Link
                             className="block"
-                            href={`/${path.split("/")[1]}/account`}
-                            startContent={<UserIcon className=" size-4" />}>
+                            href={`/${path.split("/")[1]}/account`}>
                             <span>Account</span>
                         </Link>
                     </DropdownItem>
-                    <DropdownItem>
-                        <Link
-                            className="block"
-                            href={`/admin`}
-                            startContent={<UserIcon className=" size-4" />}>
+                    <DropdownItem
+                        startContent={<UserIcon className=" size-4" />}>
+                        <Link className="block" href={`/admin`}>
                             <span>Admin</span>
                         </Link>
                     </DropdownItem>
-                    <DropdownItem>
-                        <Link
-                            className="block"
-                            href={`/soldier`}
-                            startContent={<UserIcon className=" size-4" />}>
+                    <DropdownItem
+                        startContent={<UserIcon className=" size-4" />}>
+                        <Link className="block" href={`/soldier`}>
                             <span>Soldier</span>
                         </Link>
                     </DropdownItem>
-                    <DropdownItem>
-                        <Link
-                            className="block"
-                            href={`/officer`}
-                            startContent={<UserIcon className=" size-4" />}>
+                    <DropdownItem
+                        startContent={<UserIcon className=" size-4" />}>
+                        <Link className="block" href={`/officer`}>
                             <span>Officer</span>
                         </Link>
                     </DropdownItem>
-                    <DropdownItem>
-                        <Link
-                            className="block"
-                            href={`/technician`}
-                            startContent={<UserIcon className=" size-4" />}>
+                    <DropdownItem
+                        startContent={<UserIcon className=" size-4" />}>
+                        <Link className="block" href={`/technician`}>
                             <span>Technician</span>
                         </Link>
                     </DropdownItem>
@@ -169,7 +176,7 @@ export default function Header() {
                         <form>
                             <Button
                                 type="submit"
-                                formAction={useLogoutUser}
+                                formAction={handleLogout}
                                 className="w-full h-full !m-0 px-3 py-2"
                                 color="danger">
                                 <ArrowLeftStartOnRectangleIcon className="size-4" />

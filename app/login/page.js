@@ -1,13 +1,8 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import loginBG from "@/public/bg-login.png";
-
+import dynamic from "next/dynamic";
 import Spinner from "../_component/Spinner";
-
-const Button = dynamic(() =>
-    import("@nextui-org/react").then((nextui) => nextui.Button)
-);
 
 const Card = dynamic(
     () => import("@nextui-org/react").then((nextui) => nextui.Card),
@@ -16,27 +11,14 @@ const Card = dynamic(
     }
 );
 
-const CardBody = dynamic(() =>
-    import("@nextui-org/react").then((nextui) => nextui.CardBody)
-);
-
-const CardFooter = dynamic(() =>
-    import("@nextui-org/react").then((nextui) => nextui.CardFooter)
-);
-
 const CardHeader = dynamic(() =>
     import("@nextui-org/react").then((nextui) => nextui.CardHeader)
 );
 
-const Input = dynamic(() =>
-    import("@nextui-org/react").then((nextui) => nextui.Input)
-);
-
-import Image from "next/image";
-import Link from "next/link";
-import Logo from "../_component/Logo";
-import {login} from "./actions";
 import {Playfair_Display} from "next/font/google";
+import Image from "next/image";
+import {LoginForm} from "../_component/LoginForm";
+import Logo from "../_component/Logo";
 
 const fontLogin = Playfair_Display({
     subsets: ["latin"],
@@ -62,49 +44,7 @@ export default function Page() {
                     </h1>
                 </CardHeader>
                 <form>
-                    <CardBody className="flex gap-6 py-6 overflow-visible">
-                        <Input
-                            type="email"
-                            label="Email"
-                            variant="faded"
-                            radius="full"
-                            name="email"
-                            defaultValue="soldier7@example.com"
-                            labelPlacement="outside"
-                            placeholder="m@example.com"
-                            errorMessage="Please enter valid email"
-                            isRequired
-                            isClearable
-                        />
-                        <Input
-                            type="password"
-                            label="Password"
-                            variant="faded"
-                            radius="full"
-                            defaultValue="test01234"
-                            name="password"
-                            labelPlacement="outside"
-                            placeholder="Enter your password"
-                            errorMessage="Incorrect password"
-                            isRequired
-                            isClearable
-                        />
-                    </CardBody>
-                    <CardFooter className="flex flex-col space-y-2 overflow-visible">
-                        <Button
-                            type="submit"
-                            formAction={login}
-                            className="w-full bg-black text-white"
-                            radius="full">
-                            Login
-                        </Button>
-                        <Link
-                            href="#"
-                            className="text-sm text-center hover:text-sky-600"
-                            prefetch={false}>
-                            Forgot Password?
-                        </Link>
-                    </CardFooter>
+                    <LoginForm />
                 </form>
             </Card>
         </div>

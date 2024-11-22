@@ -23,7 +23,7 @@ export default function WeaponsList({weapons}) {
 
     return (
         <div className="sm:py-4 sm:px-4 self-center flex flex-col gap-4 sm:border-stone-700 rounded-md w-full max-w-5xl">
-            <Card key={crypto.randomUUID()} className="px-3 py-3 gap-4">
+            <Card className="px-3 py-3 gap-4">
                 <ScanButton />
 
                 <div className="flex gap-1 sm:gap-2 items-center justify-center md:justify-end">
@@ -53,22 +53,20 @@ export default function WeaponsList({weapons}) {
                 </div>
             </Card>
 
-            <Table
-                key={crypto.randomUUID()}
-                selectionMode="multiple"
-                shadow="md"
-                color="primary">
+            <Table selectionMode="multiple" shadow="md" color="primary">
                 <TableHeader className="bg-slate-500">
-                    <TableColumn key={1}>Image</TableColumn>
-                    <TableColumn key={2}>Serial</TableColumn>
-                    <TableColumn key={3}>Model</TableColumn>
-                    <TableColumn key={4}>Type</TableColumn>
-                    <TableColumn key={5}>Issued on</TableColumn>
+                    <TableColumn key={crypto.randomUUID()}>Image</TableColumn>
+                    <TableColumn key={crypto.randomUUID()}>Serial</TableColumn>
+                    <TableColumn key={crypto.randomUUID()}>Model</TableColumn>
+                    <TableColumn key={crypto.randomUUID()}>Type</TableColumn>
+                    <TableColumn key={crypto.randomUUID()}>
+                        Issued on
+                    </TableColumn>
                 </TableHeader>
 
                 <TableBody>
                     {weapons.map((weapon) => (
-                        <TableRow key={weapon.serial}>
+                        <TableRow key={crypto.randomUUID()}>
                             <TableCell key={crypto.randomUUID()}>
                                 <Image
                                     src={weapon.image}
@@ -99,9 +97,7 @@ export default function WeaponsList({weapons}) {
                 </TableBody>
             </Table>
 
-            <Card
-                key={crypto.randomUUID()}
-                className="px-3 py-3 gap-3 justify-between flex-row items-center">
+            <Card className="px-3 py-3 gap-3 justify-between flex-row items-center">
                 <span className="text-sm text-stone-600">
                     0 of {weapons.length} selected
                 </span>

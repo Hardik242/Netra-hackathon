@@ -18,6 +18,7 @@ export default function Logo({isLogin = false, isSize = false}) {
                     isSize ? "size-16" : "size-11 sm:size-12"
                 } border flex items-center justify-center`}>
                 <Image
+                    priority
                     src={icon}
                     // className={`size-16`}
                     quality={100}

@@ -6,6 +6,16 @@ import {redirect} from "next/navigation";
 import {createClient} from "@/utils/supabase/server";
 
 export async function login(formData) {
+    // const validateEmail = (email) => {
+    //     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+    //     return emailRegex.test(email);
+    // };
+
+    // const validatePassword = (password) => {
+    //     const passwordRegex = /^[a-zA-Z0-9@_#$!*&]{10,16}$/;
+    //     return passwordRegex.test(password);
+    // }
+
     const supabase = await createClient();
 
     const data = {
@@ -13,14 +23,21 @@ export async function login(formData) {
         password: formData.get("password"),
     };
 
+    // if (!validateEmail(data.email)) {
+    //     throw new Error("Invalid Email")
+    // }
+
+    //   if (!validatePassword(data.password)) {
+    //       throw new Error("Invalid Password")
+    //   }
+
     const {
         error,
         data: {user},
     } = await supabase.auth.signInWithPassword(data);
 
     if (error) {
-        console.log(error);
-        throw new Error("unknown error occured can't login");
+        throw error;
     }
 
     const rolePath = user?.user_metadata?.role || "error";

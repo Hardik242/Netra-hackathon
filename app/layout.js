@@ -2,6 +2,8 @@ import "@/app/_styles/globals.css";
 import {Open_Sans} from "next/font/google";
 import Header from "./_component/Header";
 import {NextProvider} from "./_context/NextProvider";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const poppins = Open_Sans({
     subsets: ["latin"],
@@ -22,6 +24,7 @@ export default function RootLayout({children}) {
         <html lang="en">
             <body
                 className={`${poppins.className} bg-slate-100 text-black flex flex-col relative min-h-screen w-screen overflow-x-hidden antialiased`}>
+                <ToastContainer closeOnClick draggable />
                 {
                     <>
                         <Header />
