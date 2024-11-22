@@ -15,9 +15,16 @@ const CardHeader = dynamic(() =>
     import("@nextui-org/react").then((nextui) => nextui.CardHeader)
 );
 
+const LoginForm = dynamic(
+    () => import("../_component/LoginForm").then((nextui) => nextui.LoginForm),
+    {
+        loading: () => <Spinner />,
+    }
+);
+
 import {Playfair_Display} from "next/font/google";
 import Image from "next/image";
-import {LoginForm} from "../_component/LoginForm";
+// import {LoginForm} from "../_component/LoginForm";
 import Logo from "../_component/Logo";
 
 const fontLogin = Playfair_Display({
