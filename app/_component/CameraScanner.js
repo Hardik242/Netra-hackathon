@@ -26,6 +26,7 @@ export default function CameraScanner() {
                 <Image
                     src={imgSrc}
                     fill
+                    sizes="33vw"
                     className="object-cover"
                     alt="webcam"
                 />

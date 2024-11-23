@@ -24,7 +24,6 @@ const LoginForm = dynamic(
 
 import {Playfair_Display} from "next/font/google";
 import Image from "next/image";
-// import {LoginForm} from "../_component/LoginForm";
 import Logo from "../_component/Logo";
 
 const fontLogin = Playfair_Display({
@@ -32,19 +31,24 @@ const fontLogin = Playfair_Display({
     display: "swap",
 });
 
+export const metadata = {
+    title: "Login",
+};
+
 export default function Page() {
     return (
         <div className="flex w-full min-h-full justify-center items-center">
             <Image
                 src={loginBG}
                 fill
+                sizes="90vw"
                 className="object-cover"
                 quality={90}
                 alt="bg image"
             />
             <Card className="min-w-72 flex-1 max-w-md my-5 overflow-visible backdrop-blur-sm bg-slate-200/40">
                 <CardHeader className="py-5 flex justify-center flex-col gap-4 ">
-                    <Logo isSize isLogin />
+                    <Logo isLogin />
                     <h1
                         className={`w-full font-bold text-4xl text-center ${fontLogin.className}`}>
                         Login

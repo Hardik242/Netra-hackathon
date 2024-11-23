@@ -1,4 +1,5 @@
 "use client";
+
 import {
     Modal,
     ModalBody,
@@ -10,16 +11,21 @@ import {
 import {Button} from "@nextui-org/button";
 import {Select, SelectItem} from "@nextui-org/select";
 
-export function ReturnButton() {
+export function ReturnButton({weaponSerial}) {
     const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
 
     return (
         <>
-            <Button color="danger" onPress={onOpen}>
-                Return Weapon
+            <Button
+                className="bg-red-500 text-white"
+                size="sm"
+                radius="full"
+                onPress={onOpen}>
+                Return
             </Button>
             {isOpen && (
                 <ReturnModal
+                    weaponSerial={weaponSerial}
                     isOpen={isOpen}
                     onOpenChange={onOpenChange}
                     onClose={onClose}
@@ -29,7 +35,7 @@ export function ReturnButton() {
     );
 }
 
-function ReturnModal({isOpen, onClose, onOpenChange}) {
+function ReturnModal({isOpen, onClose, onOpenChange, weaponSerial}) {
     return (
         <>
             <Modal
@@ -38,11 +44,14 @@ function ReturnModal({isOpen, onClose, onOpenChange}) {
                 key={"return"}
                 placement="center"
                 isOpen={isOpen}
-                onOpenChange={onOpenChange}>
-                <ModalContent>
+                onOpenChange={onOpenChange}
+                backdrop="blur">
+                <ModalContent className="bg-sky-500">
                     {() => (
                         <>
-                            <ModalHeader>Return Weapon WPN0011</ModalHeader>
+                            <ModalHeader>
+                                Return Weapon {weaponSerial}
+                            </ModalHeader>
                             <ModalBody className="gap-5">
                                 <span className="font-bold text-sm">
                                     Return selected weapons to officer
@@ -50,6 +59,7 @@ function ReturnModal({isOpen, onClose, onOpenChange}) {
                                 <div>
                                     <Select
                                         size="sm"
+                                        className="return-select"
                                         label="Reason for return"
                                         placeholder="Select a reason">
                                         <SelectItem key={crypto.randomUUID()}>

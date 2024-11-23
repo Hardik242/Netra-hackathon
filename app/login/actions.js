@@ -37,7 +37,9 @@ export async function login(formData) {
     } = await supabase.auth.signInWithPassword(data);
 
     if (error) {
-        throw error;
+        if (error.code === "invalid_credentials")
+            throw new Error("Invalid credentials");
+        throw new Error("Something went wrong");
     }
 
     const rolePath = user?.user_metadata?.role || "error";

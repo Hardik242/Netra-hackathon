@@ -31,10 +31,10 @@ export function LoginForm() {
         return emailRegex.test(email);
     }, []);
 
-    const validatePassword = useCallback((password) => {
-        const passwordRegex = /^[a-zA-Z0-9@_#$!*&]{10,16}$/;
-        return passwordRegex.test(password);
-    }, []);
+    // const validatePassword = useCallback((password) => {
+    //     const passwordRegex = /^[a-zA-Z0-9@_#$!*&]{10,16}$/;
+    //     return passwordRegex.test(password);
+    // }, []);
 
     async function handleLogin(formData) {
         const data = {
@@ -61,15 +61,7 @@ export function LoginForm() {
                     {
                         pending: "Logging In...",
                         success: "Logged In Successfully",
-                        error: {
-                            render({data: err}) {
-                                console.log(err.message);
-                                if (err.message === "Invalid login credentials")
-                                    return "Invalid Login Credentials";
-                                else
-                                    return "Something went wrong.\n Try again.";
-                            },
-                        },
+                        error: "Invalid Login Credentials",
                     },
                     {
                         autoClose: 3000,

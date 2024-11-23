@@ -3,6 +3,27 @@
 @tailwind utilities;
 
 @layer components {
+    .return-select {
+        & [data-slot="trigger"] {
+            @apply bg-sky-200 hover:bg-sky-100;
+
+            & label {
+                @apply !text-slate-600;
+            }
+
+            & [data-slot="innerWrapper"] span {
+                @apply !text-slate-600;
+            }
+        }
+    }
+    [data-slot="popover"] [data-slot="content"] {
+        @apply bg-sky-200 text-black;
+
+        & [data-slot="listbox"] li {
+            @apply hover:bg-sky-300 hover:text-white;
+        }
+    }
+
     .spinner {
         margin: 3.2rem auto 1.6rem;
         width: 60px;
@@ -84,7 +105,7 @@
 
 :root {
     --background: #ffffff;
-    --foreground: #171717;
+    --foreground: #000000;
 }
 
 body {

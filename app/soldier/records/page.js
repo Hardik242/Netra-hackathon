@@ -1,10 +1,12 @@
-import SoldierRecords from "@/app/_component/SoldierRecords";
+import SoldierRecords from "@/app/_component/soldier/SoldierRecords";
 import Spinner from "@/app/_component/Spinner";
 import {getSoldierTransactions} from "@/app/_services/dataFunctions";
 import {createClient} from "@/utils/supabase/server";
 import {Suspense} from "react";
 
-export const validate = 0;
+export const metadata = {
+    title: "Records",
+};
 
 export default async function Page() {
     const supabase = await createClient();

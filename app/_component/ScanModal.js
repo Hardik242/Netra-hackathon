@@ -14,11 +14,11 @@ import {
 } from "@nextui-org/modal";
 import {Input} from "@nextui-org/input";
 import {Button} from "@nextui-org/button";
-import NewWeapon from "./NewWeapon";
+import NewWeapon from "./soldier/NewWeapon";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import Spinner from "./Spinner";
 import Image from "next/image";
-import {BarcodeScanIcon} from "./BarcodeScanner";
+import {BarcodeScanIcon} from "./soldier/BarcodeScanner";
 
 export function ScanButton() {
     const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();

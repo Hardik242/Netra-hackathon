@@ -10,17 +10,18 @@ const fontStyle = localFont({
     display: "swap",
 });
 
-export default function Logo({isLogin = false, isSize = false}) {
+export default function Logo({isLogin = false}) {
     return (
         <Link href="/" className="flex gap-3 justify-center items-center">
             <div
                 className={`rounded-full overflow-hidden ${
-                    isSize ? "size-16" : "size-11 sm:size-12"
+                    isLogin ? "size-14 sm:size-16" : "size-11 sm:size-12"
                 } border flex items-center justify-center`}>
                 <Image
                     priority
                     src={icon}
-                    // className={`size-16`}
+                    width={isLogin ? 64 : 48}
+                    height={isLogin ? 64 : 48}
                     quality={100}
                     alt="Netra Logo"
                 />

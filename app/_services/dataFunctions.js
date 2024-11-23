@@ -8,7 +8,7 @@ export async function getWeapons(Id) {
     const supabase = await createClient();
     const {data, error} = await supabase
         .from("weapons")
-        .select("serialNumber,type,model,status,image,updated_at")
+        .select("*")
         .eq("soldierId", Id);
     if (error) {
         console.log(error);

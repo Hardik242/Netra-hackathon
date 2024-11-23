@@ -5,5 +5,5 @@ export const metadata = {
 };
 
 export default function Page() {
-    redirect("/soldier/weapons", "push");
+    redirect("/soldier/weapons", "replace");
 }
