@@ -1,5 +1,3 @@
-"use client";
-
 import loginBG from "@/public/bg-login.png";
 import dynamic from "next/dynamic";
 import Spinner from "../_component/Spinner";
