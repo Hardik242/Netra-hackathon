@@ -1,3 +1,7 @@
 export default function page() {
-    return <div>Extra page</div>;
+    return (
+        <div>
+            <h1>Total weapons allocated</h1>
+        </div>
+    );
 }

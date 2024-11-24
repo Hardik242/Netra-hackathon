@@ -1,3 +1,5 @@
+"use client";
+
 import loginBG from "@/public/bg-login.png";
 import dynamic from "next/dynamic";
 import Spinner from "../_component/Spinner";
@@ -23,15 +25,16 @@ const LoginForm = dynamic(
 import {Playfair_Display} from "next/font/google";
 import Image from "next/image";
 import Logo from "../_component/Logo";
+import {Suspense} from "react";
 
 const fontLogin = Playfair_Display({
     subsets: ["latin"],
     display: "swap",
 });
 
-export const metadata = {
-    title: "Login",
-};
+// export const metadata = {
+//     title: "Login",
+// };
 
 export default function Page() {
     return (
@@ -53,7 +56,9 @@ export default function Page() {
                     </h1>
                 </CardHeader>
                 <form>
-                    <LoginForm />
+                    <Suspense fallback={<Spinner />} key={crypto.randomUUID()}>
+                        <LoginForm />
+                    </Suspense>
                 </form>
             </Card>
         </div>

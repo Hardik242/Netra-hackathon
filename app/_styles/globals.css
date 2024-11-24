@@ -117,3 +117,13 @@ body {
         text-wrap: balance;
     }
 }
+
+@media only screen and (max-width: 480px) {
+    .Toastify__toast {
+        border-radius: var(--toastify-toast-bd-radius) !important;
+        margin-bottom: 1rem !important;
+    }
+    .Toastify__toast-container {
+        padding: 4px !important;
+    }
+}
