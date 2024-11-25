@@ -1,5 +1,6 @@
 "use client";
 
+import {formatDateTime} from "@/app/_services/helpers";
 import {
     Card,
     CardBody,
@@ -14,13 +15,7 @@ import {
 import Image from "next/image";
 import {useEffect} from "react";
 
-export default function DetailModal({
-    isOpen,
-    onOpenChange,
-    data,
-    setData,
-    formatDateTime,
-}) {
+export default function DetailModal({isOpen, onOpenChange, data, setData}) {
     useEffect(() => {
         return () => setData(null);
     }, [setData]);

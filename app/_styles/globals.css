@@ -3,19 +3,6 @@
 @tailwind utilities;
 
 @layer components {
-    .return-select {
-        & [data-slot="trigger"] {
-            @apply bg-sky-200 hover:bg-sky-100;
-
-            & label {
-                @apply !text-slate-600;
-            }
-
-            & [data-slot="innerWrapper"] span {
-                @apply !text-slate-600;
-            }
-        }
-    }
     [data-slot="popover"] [data-slot="content"] {
         @apply bg-sky-200 text-black;
 

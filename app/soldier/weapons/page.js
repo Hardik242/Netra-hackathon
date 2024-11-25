@@ -1,4 +1,4 @@
-import {ScanButton} from "@/app/_component/ScanModal";
+import {ScanButton} from "@/app/_component/soldier/ScanModal";
 import Spinner from "@/app/_component/Spinner";
 import {Card} from "@nextui-org/react";
 import {Suspense} from "react";

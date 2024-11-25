@@ -3,22 +3,54 @@
 import flashlight from "@/public/flashlight.png";
 import switchCamera from "@/public/switch-camera.png";
 import {Suspense, useEffect, useRef, useState} from "react";
-import useScreenWidth from "../_hooks/useScreenWidth";
-import {
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    useDisclosure,
-} from "@nextui-org/modal";
+import {useDisclosure} from "@nextui-org/modal";
 import {Input} from "@nextui-org/input";
 import {Button} from "@nextui-org/button";
-import NewWeapon from "./soldier/NewWeapon";
-import BarcodeScannerComponent from "react-qr-barcode-scanner";
-import Spinner from "./Spinner";
+import NewWeapon from "./NewWeapon";
 import Image from "next/image";
-import {BarcodeScanIcon} from "./soldier/BarcodeScanner";
+import {BarcodeScanIcon} from "./BarcodeScanner";
+import useScreenWidth from "@/app/_hooks/useScreenWidth";
+import dynamic from "next/dynamic";
+import {Spinner} from "@nextui-org/react";
+
+const BarcodeScannerComponent = dynamic(() =>
+    import("react-qr-barcode-scanner")
+);
+
+const Modal = dynamic(
+    () => import("@nextui-org/react").then((nextui) => nextui.Modal),
+    {
+        loading: () => <Spinner />,
+    }
+);
+
+const ModalBody = dynamic(
+    () => import("@nextui-org/react").then((nextui) => nextui.ModalBody),
+    {
+        loading: () => <Spinner />,
+    }
+);
+
+const ModalContent = dynamic(
+    () => import("@nextui-org/react").then((nextui) => nextui.ModalContent),
+    {
+        loading: () => <Spinner />,
+    }
+);
+
+const ModalFooter = dynamic(
+    () => import("@nextui-org/react").then((nextui) => nextui.ModalFooter),
+    {
+        loading: () => <Spinner />,
+    }
+);
+
+const ModalHeader = dynamic(
+    () => import("@nextui-org/react").then((nextui) => nextui.ModalHeader),
+    {
+        loading: () => <Spinner />,
+    }
+);
 
 export function ScanButton() {
     const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();

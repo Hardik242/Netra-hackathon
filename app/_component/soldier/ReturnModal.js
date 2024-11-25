@@ -46,7 +46,7 @@ function ReturnModal({isOpen, onClose, onOpenChange, weaponSerial}) {
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
                 backdrop="blur">
-                <ModalContent className="bg-sky-500">
+                <ModalContent className="bg-sky-300">
                     {() => (
                         <>
                             <ModalHeader>
@@ -59,6 +59,7 @@ function ReturnModal({isOpen, onClose, onOpenChange, weaponSerial}) {
                                 <div>
                                     <Select
                                         size="sm"
+                                        color="primary"
                                         className="return-select"
                                         label="Reason for return"
                                         placeholder="Select a reason">
