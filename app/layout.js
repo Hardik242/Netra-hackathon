@@ -4,6 +4,7 @@ import Header from "./_component/Header";
 import {NextProvider} from "./_context/NextProvider";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import QueryProvider from "./_context/QueryProvider";
 
 const poppins = Open_Sans({
     subsets: ["latin"],
@@ -24,16 +25,18 @@ export default function RootLayout({children}) {
         <html lang="en">
             <body
                 className={`${poppins.className} bg-slate-100 text-black flex flex-col relative min-h-screen w-screen overflow-x-hidden antialiased`}>
-                <ToastContainer closeOnClick draggable />
-                {
-                    <>
-                        <Header />
+                <QueryProvider>
+                    <ToastContainer closeOnClick draggable />
+                    {
+                        <>
+                            <Header />
 
-                        <main className="min-h-full max-w-screen flex-1 flex px-4">
-                            <NextProvider>{children}</NextProvider>
-                        </main>
-                    </>
-                }
+                            <main className="min-h-full max-w-screen flex-1 flex px-4">
+                                <NextProvider>{children}</NextProvider>
+                            </main>
+                        </>
+                    }
+                </QueryProvider>
             </body>
         </html>
     );

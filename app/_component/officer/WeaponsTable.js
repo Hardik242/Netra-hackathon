@@ -1,6 +1,6 @@
 "use client";
 
-import {getAuthUser, getOfficerWeapons} from "@/app/_services/dataFunctions";
+import useOfficerWeapons from "@/app/_hooks/useOfficerWeapons";
 import {
     Pagination,
     Select,
@@ -14,53 +14,28 @@ import {
     TableRow,
 } from "@nextui-org/react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {useEffect, useRef, useState} from "react";
 import WeaponRow from "./WeaponRow";
 
-export default function WeaponsTable() {
+const PAGE_SIZE = 5;
+
+export default function WeaponsTable({officerId}) {
+    const {
+        isLoading,
+        weapons = [],
+        count = 1,
+        page = 1,
+    } = useOfficerWeapons(officerId);
+
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
-    const [weapons, setWeapons] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const weaponLength = useRef(0);
-    const pageCount = useRef(0);
-    const officerId = useRef(null);
-    const page = useRef(1);
-    const [currPage, setCurrPage] = useState(1);
 
     async function handlePagination(value) {
-        setCurrPage(value);
         const params = new URLSearchParams(searchParams);
         params.set("page", value);
         const path = `${pathname}?${params}`;
-        router.replace(path, {scroll: false});
+        router.push(path, {scroll: false});
     }
-
-    useEffect(() => {
-        (async () => {
-            if (!officerId.current) {
-                officerId.current = await getAuthUser();
-            }
-            if (searchParams.has("page"))
-                page.current = Number.parseInt(searchParams?.get("page"));
-
-            const {data: weapons, count} = await getOfficerWeapons(
-                officerId.current,
-                page.current
-            );
-
-            setWeapons(weapons);
-            setIsLoading(false);
-            setCurrPage(page.current);
-
-            weaponLength.current = count;
-            pageCount.current = Math.ceil(count / 5);
-
-            if (page.current > pageCount.current)
-                page.current = pageCount.current;
-        })();
-    }, [searchParams]);
 
     const columns = [
         "Image",
@@ -76,13 +51,15 @@ export default function WeaponsTable() {
 
     const modelMenuItems = weapons
         ? [...new Set(weapons.map((weapon) => weapon.model))]
-        : "All";
+        : ["All"];
     modelMenuItems.unshift("All");
 
     const typeMenuItems = weapons
         ? [...new Set(weapons.map((weapon) => weapon.type))]
-        : "All";
+        : ["All"];
     typeMenuItems.unshift("All");
+
+    // if (isLoading) return <Spinner size="lg" />;
 
     return (
         <Table
@@ -130,13 +107,13 @@ export default function WeaponsTable() {
                         className="text-xs"
                         color="primary"
                         size="sm"
-                        page={currPage}
-                        total={pageCount.current}
+                        page={page}
+                        total={Math.ceil(count / PAGE_SIZE)}
                         variant="faded"
                         onChange={handlePagination}
                     />
                     <span className="text-small text-default-400">
-                        {`${0} of ${weaponLength.current} selected`}
+                        {`${0} of ${count} selected`}
                     </span>
                 </div>
             }

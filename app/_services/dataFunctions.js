@@ -4,6 +4,9 @@ import {createClient} from "@/utils/supabase/server";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
 
+export const fetcher = (url) =>
+    fetch(url, {method: "GET"}).then((res) => res.json());
+
 export async function getAuthUser() {
     const supabase = await createClient();
     const {
@@ -11,8 +14,6 @@ export async function getAuthUser() {
             user: {id},
         },
     } = await supabase.auth.getUser();
-
-    console.log("server : ", id);
 
     return id;
 }
@@ -56,7 +57,6 @@ export async function getOfficerWeapons(Id, page) {
         throw new Error("weapons could not be loaded");
     }
 
-    console.log("New api call for weapons page: ", page);
     return {data, count};
 }
 

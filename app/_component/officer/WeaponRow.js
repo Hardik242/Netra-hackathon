@@ -4,6 +4,7 @@ import {Avatar, Chip, Spinner, User} from "@nextui-org/react";
 import Image from "next/image";
 import {useEffect, useState} from "react";
 import GunIcon from "../GunIcon";
+import {useQuery} from "@tanstack/react-query";
 
 export default function WeaponRow({weapon, name}) {
     const {
@@ -63,12 +64,16 @@ export default function WeaponRow({weapon, name}) {
                 </Chip>
             );
         case "Soldier deatils":
-            return soldierId ? <PersonDetails id={soldierId} /> : "null";
+            return soldierId ? (
+                <PersonDetails id={soldierId} />
+            ) : (
+                <span>&mdash;</span>
+            );
         case "Technician Details":
             return status === "maintenance" ? (
                 <PersonDetails id={technicianId} />
             ) : (
-                "null"
+                <span>&mdash;</span>
             );
         case "Allocation Date":
             return <span>{shortDate}</span>;
@@ -78,21 +83,21 @@ export default function WeaponRow({weapon, name}) {
 }
 
 function PersonDetails({id}) {
-    const [userDetails, setUserDetails] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+    const {data, isLoading} = useQuery({
+        queryFn: async () => {
+            return await getUserDetailsById(id);
+        },
+        queryKey: ["user", id],
+        staleTime: Infinity,
+    });
 
-    useEffect(() => {
-        (async () => {
-            const user = await getUserDetailsById(id);
-            const {user_metadata} = user;
-            const {fullName, militaryID} = user_metadata;
+    let militaryID = "";
+    let fullName = "";
 
-            setUserDetails({fullName, militaryID});
-            setIsLoading(false);
-        })();
-    }, [id]);
-
-    if (isLoading) return <Spinner size="sm" />;
+    if (!isLoading) {
+        militaryID = data.user_metadata.militaryID;
+        fullName = data.user_metadata.fullName;
+    }
 
     return (
         <User
@@ -100,8 +105,8 @@ function PersonDetails({id}) {
                 showFallback: true,
                 src: "none",
             }}
-            description={userDetails ? userDetails.militaryID : "Loading..."}
-            name={userDetails ? userDetails.fullName : "Loading..."}
+            description={!isLoading ? militaryID : "Loading..."}
+            name={!isLoading ? fullName : "Loading..."}
         />
     );
 }
