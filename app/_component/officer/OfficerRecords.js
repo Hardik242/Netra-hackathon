@@ -8,18 +8,11 @@ import {
     TableHeader,
     TableRow,
 } from "@nextui-org/react";
-import RecordRow from "./RecordRow";
+import RecordRow from "../soldier/RecordRow";
 
-const columns = [
-    "Id",
-    "Weapon Serial",
-    "Transaction Type",
-    "Date",
-    "Time",
-    "Details",
-];
+const columns = ["Id", "Weapon Serial", "Transaction Type", "Date", "Time"];
 
-export default function SoldierRecords({transactions}) {
+export default function OfficerRecords({transactions}) {
     return (
         <div className="sm:px-4 self-center flex flex-col gap-4 sm:border-stone-700 rounded-md w-full max-w-5xl">
             <Table>

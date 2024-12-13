@@ -1,3 +1,36 @@
-export default function page() {
-    return <div>Extra page</div>;
+import CSVButton from "@/app/_component/CSVButton";
+import OfficerRecords from "@/app/_component/officer/OfficerRecords";
+import {getTransactions} from "@/app/_services/dataFunctions";
+import {createClient} from "@/utils/supabase/server";
+import {Spinner} from "@nextui-org/react";
+import {Suspense} from "react";
+
+export const metadata = {
+    title: "Records",
+};
+
+export default async function Page() {
+    const supabase = await createClient();
+    const {
+        data: {
+            user: {id},
+        },
+    } = await supabase.auth.getUser();
+    const transactions = await getTransactions(id);
+
+    return (
+        <div className="flex gap-5 flex-col w-full">
+            <div className="flex justify-between">
+                <h1 className="text-black font-extrabold text-xl sm:text-3xl">
+                    History
+                </h1>
+
+                <CSVButton data={transactions} />
+            </div>
+
+            <Suspense fallback={<Spinner />}>
+                <OfficerRecords transactions={transactions} />
+            </Suspense>
+        </div>
+    );
 }

@@ -19,6 +19,7 @@
         "framer-motion": "^11.11.11",
         "next": "14.2.15",
         "react": "^18",
+        "react-csv": "^2.2.2",
         "react-dom": "^18",
         "react-qr-barcode-scanner": "^2.0.0",
         "react-toastify": "^10.0.6",

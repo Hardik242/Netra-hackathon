@@ -75,7 +75,7 @@ export async function getUserDetailsById(id) {
     return user;
 }
 
-export async function getSoldierTransactions(Id) {
+export async function getTransactions(Id) {
     const supabase = await createClient();
     const {data, error} = await supabase
         .from("transactions")
@@ -101,7 +101,7 @@ export async function userLoginWithEmail({email, password}) {
     return {data, error};
 }
 
-export async function getSoldierTransaction(id) {
+export async function getTransaction(id) {
     const supabase = await createClient();
     const {data, error} = await supabase
         .from("transactions")

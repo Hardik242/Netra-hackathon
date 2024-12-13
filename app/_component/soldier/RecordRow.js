@@ -3,12 +3,19 @@
 import {ChevronRightIcon} from "@heroicons/react/24/solid";
 import {Button, Chip, useDisclosure} from "@nextui-org/react";
 import {useState} from "react";
-import {getSoldierTransaction} from "../../_services/dataFunctions";
+import {getTransaction} from "../../_services/dataFunctions";
 // import DetailModal from "./DetailRecordModal";
 import dynamic from "next/dynamic";
 import {formatDateTime} from "@/app/_services/helpers";
 
 const DetailModal = dynamic(() => import("./DetailRecordModal"));
+
+const statusColor = {
+    maintenance: "primary",
+    allocate: "success",
+    issue: "success",
+    return: "danger",
+};
 
 export default function RecordRow({record, name}) {
     const {isOpen, onOpenChange, onOpen} = useDisclosure();
@@ -16,7 +23,7 @@ export default function RecordRow({record, name}) {
 
     async function handleOpenModal(id) {
         onOpen();
-        const data1 = await getSoldierTransaction(id);
+        const data1 = await getTransaction(id);
         setData(data1);
     }
 
@@ -30,10 +37,7 @@ export default function RecordRow({record, name}) {
             return weaponId;
         case "Transaction Type":
             return (
-                <Chip
-                    size="sm"
-                    color={type === "issue" ? "success" : "danger"}
-                    variant="flat">
+                <Chip size="sm" color={statusColor[type]} variant="flat">
                     {type}
                 </Chip>
             );

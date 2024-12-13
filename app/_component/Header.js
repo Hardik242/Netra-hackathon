@@ -35,10 +35,10 @@ export default function Header() {
 
     switch (path.split("/")[1]) {
         case "admin":
-            menuItems = ["dashboard", "users", "weapons", "records"];
+            menuItems = ["users", "weapons", "records"];
             break;
         case "officer":
-            menuItems = ["dashboard", "weapons", "maintenance", "records"];
+            menuItems = ["weapons", "maintenance", "records"];
             break;
         case "soldier":
             menuItems = ["weapons", "records"];
@@ -148,7 +148,7 @@ export default function Header() {
                             <span>Account</span>
                         </Link>
                     </DropdownItem>
-                    <DropdownItem
+                    {/* <DropdownItem
                         startContent={<UserIcon className=" size-4" />}>
                         <Link className="block" href={`/admin`}>
                             <span>Admin</span>
@@ -171,7 +171,7 @@ export default function Header() {
                         <Link className="block" href={`/technician`}>
                             <span>Technician</span>
                         </Link>
-                    </DropdownItem>
+                    </DropdownItem> */}
                     <DropdownItem key="logout" className="!p-0">
                         <form>
                             <Button

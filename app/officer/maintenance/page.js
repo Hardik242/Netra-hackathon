@@ -1,3 +1,9 @@
 export default function page() {
-    return <div>Extra page</div>;
+    return (
+        <div>
+            <h1>Maintenance</h1>
+
+            <div></div>
+        </div>
+    );
 }

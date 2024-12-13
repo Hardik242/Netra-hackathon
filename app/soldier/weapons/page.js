@@ -17,7 +17,7 @@ export const metadata = {
 export default async function Page() {
     return (
         <div className="flex gap-5 flex-col w-full">
-            <div className="flex flex-col sm:flex-row justify-between items-start">
+            <div className="flex flex-col gap-y-5 sm:flex-row justify-between items-start">
                 <h1 className="text-black font-extrabold text-xl sm:text-3xl">
                     Issued Weapons
                 </h1>
